@@ -22,5 +22,10 @@ public class HelloController {
         return "<h3>Workout List</h3>";
     }
 
+    @GetMapping("/message-from-coach")
+    public String getMessageFromCoach(){
+        return "<h2>Hello from "+coachName+"</h2>";
+    }
+
 
 }
