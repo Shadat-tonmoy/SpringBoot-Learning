@@ -3,6 +3,7 @@ package com.example.springbootcore.demo.controllers;
 import com.example.springbootcore.demo.controllers.dataProvider.Coach;
 import com.example.springbootcore.utils.RandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.springbootcore.utils.DateFormatter;
@@ -16,7 +17,7 @@ public class TestController {
     private RandomNumberGenerator randomNumberGenerator;
 
     @Autowired
-    public TestController(Coach coach, DateFormatter dateFormatter) {
+    public TestController(@Qualifier("hockeyCoach")  Coach coach, DateFormatter dateFormatter) {
         this.coach = coach;
         this.dateFormatter = dateFormatter;
     }
