@@ -15,10 +15,12 @@ public class TestController {
     private final Coach anotherCoach;
     private final DateFormatter dateFormatter;
 
+    private Coach swimmingCoach;
+
     private RandomNumberGenerator randomNumberGenerator;
 
     @Autowired
-    public TestController(@Qualifier("hockeyCoach")  Coach coach, @Qualifier("hockeyCoach") Coach anotherCoach, DateFormatter dateFormatter) {
+    public TestController(@Qualifier("hockeyCoach") Coach coach, @Qualifier("hockeyCoach") Coach anotherCoach, DateFormatter dateFormatter) {
         this.coach = coach;
         this.anotherCoach = anotherCoach;
         this.dateFormatter = dateFormatter;
@@ -29,9 +31,14 @@ public class TestController {
         this.randomNumberGenerator = randomNumberGenerator;
     }
 
+    @Autowired
+    public void setSwimCoach(@Qualifier("swimCoach") Coach swimCoach) {
+        this.swimmingCoach = swimCoach;
+    }
+
     @GetMapping("/hello")
     public String getHelloMessage() {
-        return "Hello. Now is " + dateFormatter.getCurrentDate()+" And a random number is : "+randomNumberGenerator.getRandomInt();
+        return "Hello. Now is " + dateFormatter.getCurrentDate() + " And a random number is : " + randomNumberGenerator.getRandomInt();
     }
 
     @GetMapping("/coach-message")
@@ -41,10 +48,14 @@ public class TestController {
 
 
     @GetMapping("/check")
-    public String check(){
-        String message = "The two coach are the same object : "+(coach == anotherCoach);
+    public String check() {
+        String message = "The two coach are the same object : " + (coach == anotherCoach);
         return message;
+    }
 
+    @GetMapping("/swim-coach")
+    public String getSwimCoachMessage() {
+        return swimmingCoach.getMessage();
     }
 
 }
