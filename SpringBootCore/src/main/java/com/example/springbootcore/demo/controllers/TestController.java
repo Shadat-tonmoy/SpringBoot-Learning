@@ -12,13 +12,15 @@ import com.example.springbootcore.utils.DateFormatter;
 public class TestController {
 
     private final Coach coach;
+    private final Coach anotherCoach;
     private final DateFormatter dateFormatter;
 
     private RandomNumberGenerator randomNumberGenerator;
 
     @Autowired
-    public TestController(@Qualifier("hockeyCoach")  Coach coach, DateFormatter dateFormatter) {
+    public TestController(@Qualifier("hockeyCoach")  Coach coach, @Qualifier("hockeyCoach") Coach anotherCoach, DateFormatter dateFormatter) {
         this.coach = coach;
+        this.anotherCoach = anotherCoach;
         this.dateFormatter = dateFormatter;
     }
 
@@ -35,6 +37,14 @@ public class TestController {
     @GetMapping("/coach-message")
     public String getCoachMessage() {
         return coach.getMessage();
+    }
+
+
+    @GetMapping("/check")
+    public String check(){
+        String message = "The two coach are the same object : "+(coach == anotherCoach);
+        return message;
+
     }
 
 }

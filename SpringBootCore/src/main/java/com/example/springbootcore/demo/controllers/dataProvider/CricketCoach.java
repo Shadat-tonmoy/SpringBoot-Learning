@@ -1,10 +1,9 @@
 package com.example.springbootcore.demo.controllers.dataProvider;
 
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Lazy
 public class CricketCoach implements Coach {
 
     public CricketCoach() {
