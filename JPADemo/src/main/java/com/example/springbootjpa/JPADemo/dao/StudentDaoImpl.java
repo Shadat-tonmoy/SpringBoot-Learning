@@ -4,12 +4,12 @@ import com.example.springbootjpa.JPADemo.entity.Student;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
 public class StudentDaoImpl implements StudentDao {
-
 
     private EntityManager entityManager;
 
@@ -17,8 +17,15 @@ public class StudentDaoImpl implements StudentDao {
         this.entityManager = entityManager;
     }
 
+    @Transactional
     @Override
     public void save(Student student) {
+        try {
+            entityManager.persist(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
