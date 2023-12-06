@@ -33,4 +33,17 @@ public class StudentDaoImpl implements StudentDao {
     public List<Student> getAll() {
         return null;
     }
+
+    @Override
+    public Student findById(int id) {
+
+        try {
+            Student student = entityManager.find(Student.class, id);
+            return student;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

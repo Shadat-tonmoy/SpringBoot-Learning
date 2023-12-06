@@ -24,8 +24,15 @@ public class StudentController {
         Student newStudent = getStudent();
         studentDao.save(newStudent);
         String studentJson = gson.toJson(newStudent);
-        return "Student is added successfully as "+studentJson;
+        return "Student is added successfully as " + studentJson;
 
+    }
+
+    @GetMapping("/get-single-student")
+    public String getStudentById() {
+        Student student = studentDao.findById(15);
+        String studentJson = gson.toJson(student);
+        return studentJson;
     }
 
     private Student getStudent() {

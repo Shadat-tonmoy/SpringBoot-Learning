@@ -11,5 +11,7 @@ public interface StudentDao {
 
     List<Student> getAll();
 
+    Student findById(int id);
+
 
 }
