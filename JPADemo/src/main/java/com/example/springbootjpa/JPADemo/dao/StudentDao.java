@@ -13,5 +13,7 @@ public interface StudentDao {
 
     Student findById(int id);
 
+    Student findByEmail(String email);
+
 
 }

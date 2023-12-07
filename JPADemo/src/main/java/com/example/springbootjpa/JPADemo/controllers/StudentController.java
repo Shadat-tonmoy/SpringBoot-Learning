@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class StudentController {
 
@@ -35,6 +37,29 @@ public class StudentController {
         return studentJson;
     }
 
+
+    @GetMapping("/students")
+    public String getAllStudent() {
+        List<Student> allStudent = studentDao.getAll();
+        String allStudentJson = gson.toJson(allStudent);
+        return allStudentJson;
+    }
+
+
+    @GetMapping("/student-by-email")
+    public String getStudentByEmail() {
+        String email = "student1@emaili.com";
+        Student student = studentDao.findByEmail(email);
+        if(student != null){
+            String studentJson = gson.toJson(student);
+            return studentJson;
+        } else {
+            return "{}";
+        }
+
+
+    }
+
     private Student getStudent() {
         String firstName = "StudentFName : " + System.currentTimeMillis();
         String lastName = "StudentLName : " + System.currentTimeMillis();
@@ -42,6 +67,7 @@ public class StudentController {
         Student student = new Student(firstName, lastName, email);
         return student;
     }
+
 
     @Autowired
     public void setGson(Gson gson) {
