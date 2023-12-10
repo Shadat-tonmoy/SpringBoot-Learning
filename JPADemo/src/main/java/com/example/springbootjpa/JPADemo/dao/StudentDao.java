@@ -19,5 +19,7 @@ public interface StudentDao {
 
     int updateStudentFirstName(int id, String firstName);
 
+    int deleteStudentById(int id);
+
 
 }

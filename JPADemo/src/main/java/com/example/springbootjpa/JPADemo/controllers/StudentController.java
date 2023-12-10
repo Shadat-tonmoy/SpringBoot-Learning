@@ -80,6 +80,14 @@ public class StudentController {
         return "TotalUpdatedRow : " + numOfRowUpdated;
     }
 
+
+    @GetMapping("/delete-student-by-id")
+    public String deleteStudentById() {
+        int id = 3;
+        int numOfRowDeleted = studentDao.deleteStudentById(id);
+        return "TotalDeletedRow : " + numOfRowDeleted;
+    }
+
     private Student getStudent() {
         String firstName = "StudentFName : " + System.currentTimeMillis();
         String lastName = "StudentLName : " + System.currentTimeMillis();

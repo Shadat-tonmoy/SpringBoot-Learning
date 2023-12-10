@@ -93,4 +93,19 @@ public class StudentDaoImpl implements StudentDao {
         }
         return -1;
     }
+
+    @Override
+    @Transactional
+    public int deleteStudentById(int id) {
+        try {
+            Query deleteQuery = entityManager.createQuery("DELETE FROM Student WHERE id=:id");
+            deleteQuery.setParameter("id", id);
+            int numOfRowDeleted = deleteQuery.executeUpdate();
+            return numOfRowDeleted;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }
