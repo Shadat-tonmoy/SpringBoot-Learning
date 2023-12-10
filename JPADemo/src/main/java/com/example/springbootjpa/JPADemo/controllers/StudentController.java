@@ -56,7 +56,19 @@ public class StudentController {
         } else {
             return "{}";
         }
+    }
 
+
+    @GetMapping("/update-student")
+    public String updateStudent(){
+        int id = 1;
+        Student student = studentDao.findById(id);
+        if(student != null){
+            student.setFirstName("Updated First Name @ "+System.currentTimeMillis());
+            studentDao.updateStudent(student);
+            return "Student has been updated!";
+        }
+        return "Could not find any student with the id!";
 
     }
 

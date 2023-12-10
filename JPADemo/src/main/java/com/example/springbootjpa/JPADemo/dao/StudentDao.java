@@ -15,5 +15,7 @@ public interface StudentDao {
 
     Student findByEmail(String email);
 
+    void updateStudent(Student student);
+
 
 }

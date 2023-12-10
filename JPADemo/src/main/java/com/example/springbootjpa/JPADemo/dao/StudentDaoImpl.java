@@ -56,7 +56,7 @@ public class StudentDaoImpl implements StudentDao {
             TypedQuery<Student> query = entityManager.createQuery("FROM Student WHERE email = :email", Student.class);
             query.setParameter("email", email);
             List<Student> studentList = query.getResultList();
-            if(!studentList.isEmpty()){
+            if (!studentList.isEmpty()) {
                 return studentList.get(0);
             }
             return null;
@@ -65,5 +65,15 @@ public class StudentDaoImpl implements StudentDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public void updateStudent(Student student) {
+        try {
+            entityManager.merge(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
