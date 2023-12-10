@@ -17,5 +17,7 @@ public interface StudentDao {
 
     void updateStudent(Student student);
 
+    int updateStudentFirstName(int id, String firstName);
+
 
 }

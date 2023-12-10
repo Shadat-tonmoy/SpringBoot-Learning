@@ -50,7 +50,7 @@ public class StudentController {
     public String getStudentByEmail() {
         String email = "student1@emaili.com";
         Student student = studentDao.findByEmail(email);
-        if(student != null){
+        if (student != null) {
             String studentJson = gson.toJson(student);
             return studentJson;
         } else {
@@ -60,16 +60,24 @@ public class StudentController {
 
 
     @GetMapping("/update-student")
-    public String updateStudent(){
+    public String updateStudent() {
         int id = 1;
         Student student = studentDao.findById(id);
-        if(student != null){
-            student.setFirstName("Updated First Name @ "+System.currentTimeMillis());
+        if (student != null) {
+            student.setFirstName("Updated First Name @ " + System.currentTimeMillis());
             studentDao.updateStudent(student);
             return "Student has been updated!";
         }
         return "Could not find any student with the id!";
 
+    }
+
+    @GetMapping("/update-student-by-id")
+    public String updateStudentLastName() {
+        int id = 2;
+        String firstName = "UpdatedFirstName @ " + System.currentTimeMillis();
+        int numOfRowUpdated = studentDao.updateStudentFirstName(id, firstName);
+        return "TotalUpdatedRow : " + numOfRowUpdated;
     }
 
     private Student getStudent() {

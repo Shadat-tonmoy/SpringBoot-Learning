@@ -2,6 +2,7 @@ package com.example.springbootjpa.JPADemo.dao;
 
 import com.example.springbootjpa.JPADemo.entity.Student;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -75,5 +76,21 @@ public class StudentDaoImpl implements StudentDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    @Transactional
+    public int updateStudentFirstName(int id, String firstName) {
+        try {
+            Query updateQuery = entityManager.createQuery("UPDATE Student SET firstName=:firstName WHERE id=:id");
+            updateQuery.setParameter("firstName", firstName);
+            updateQuery.setParameter("id", id);
+            int numOfUpdatedRow = updateQuery.executeUpdate();
+            return numOfUpdatedRow;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return -1;
     }
 }
