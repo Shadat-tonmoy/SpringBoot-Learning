@@ -1,6 +1,7 @@
 package com.springboot.restDemo.controller;
 
 import com.springboot.restDemo.entity.Student;
+import com.springboot.restDemo.exceptions.StudentNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,8 @@ public class StudentRestController {
     List<Student> studentList = new ArrayList<>();
 
 
-    public StudentRestController() {}
+    public StudentRestController() {
+    }
 
     @PostConstruct
     public void initStudentList() {
@@ -41,10 +43,11 @@ public class StudentRestController {
 
     @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable int studentId) {
-        if (studentId < studentList.size()) {
+        if (studentId >= studentList.size() || studentId < 0) {
+            throw new StudentNotFoundException();
+        } else {
             return studentList.get(studentId);
         }
-        return null;
     }
 
 
