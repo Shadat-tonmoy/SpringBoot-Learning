@@ -20,7 +20,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public List<Employee> getAll() {
-        TypedQuery<Employee> employeeQuery = entityManager.createQuery("FROM employee", Employee.class);
+        TypedQuery<Employee> employeeQuery = entityManager.createQuery("FROM Employee", Employee.class);
         return employeeQuery.getResultList();
     }
 

@@ -23,10 +23,13 @@ public class EmployeeRestController {
 
     @GetMapping("/employee")
     public List<Employee> getEmployeeList() {
-        List<Employee> employees = employeeDao.getAll();
-        System.out.println("GetEmployeeCalled");
-        return employees;
-
-
+        try {
+            List<Employee> employees = employeeDao.getAll();
+            System.out.println("GetEmployeeCalled");
+            return employees;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
