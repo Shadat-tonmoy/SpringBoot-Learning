@@ -5,6 +5,7 @@ import com.example.crudrestdemo.data.entities.Employee;
 import com.example.crudrestdemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,5 +32,18 @@ public class EmployeeRestController {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @GetMapping("/employee/{id}")
+    public Employee getEmployee(@PathVariable("id") int id) {
+        try {
+            Employee employee = employeeService.getById(id);
+            System.out.println("GetEmployeeWithId : " + id);
+            return employee;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 }
