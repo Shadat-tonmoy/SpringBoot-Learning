@@ -2,6 +2,7 @@ package com.example.crudrestdemo.controllers;
 
 import com.example.crudrestdemo.data.dao.EmployeeDao;
 import com.example.crudrestdemo.data.entities.Employee;
+import com.example.crudrestdemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,21 +14,20 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class EmployeeRestController {
 
-
-    private EmployeeDao employeeDao;
+    private EmployeeService employeeService;
 
     @Autowired
-    public EmployeeRestController(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    public EmployeeRestController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/employee")
     public List<Employee> getEmployeeList() {
         try {
-            List<Employee> employees = employeeDao.getAll();
+            List<Employee> employees = employeeService.getAll();
             System.out.println("GetEmployeeCalled");
             return employees;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }

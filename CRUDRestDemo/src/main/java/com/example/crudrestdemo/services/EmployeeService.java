@@ -1,10 +1,10 @@
-package com.example.crudrestdemo.data.dao;
+package com.example.crudrestdemo.services;
 
 import com.example.crudrestdemo.data.entities.Employee;
 
 import java.util.List;
 
-public interface EmployeeDao {
+public interface EmployeeService {
 
     List<Employee> getAll();
 
@@ -13,4 +13,6 @@ public interface EmployeeDao {
     int update(Employee employee);
 
     int delete(Employee employee);
+
+
 }

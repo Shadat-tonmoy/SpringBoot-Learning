@@ -33,4 +33,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public int update(Employee employee) {
         return 0;
     }
+
+    @Override
+    public int delete(Employee employee) {
+        return 0;
+    }
+
+
 }
