@@ -4,10 +4,7 @@ import com.example.crudrestdemo.data.dao.EmployeeDao;
 import com.example.crudrestdemo.data.entities.Employee;
 import com.example.crudrestdemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,5 +46,12 @@ public class EmployeeRestController {
             throw e;
         }
 
+    }
+
+    @PostMapping("/employee")
+    Employee addEmployee(@RequestBody Employee employee) {
+        employee.setId(0);
+        Employee newEmployee = employeeService.save(employee);
+        return newEmployee;
     }
 }
