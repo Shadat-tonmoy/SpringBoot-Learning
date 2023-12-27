@@ -16,5 +16,7 @@ public interface EmployeeService {
 
     void delete(Employee employee);
 
+    int deleteById(int id);
+
 
 }

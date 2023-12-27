@@ -2,6 +2,7 @@ package com.example.crudrestdemo.data.dao;
 
 import com.example.crudrestdemo.data.entities.Employee;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee save(Employee employee) {
         Employee updatedEmployee = entityManager.merge(employee);
         return updatedEmployee;
+    }
+
+    @Override
+    public int deleteById(int id) {
+        Query deleteQuery = entityManager.createQuery("DELETE FROM Employee WHERE id = :id");
+        deleteQuery.setParameter("id", id);
+        System.out.println("Delete By Id : " + id);
+        int result = deleteQuery.executeUpdate();
+        System.out.println("Delete Query Result : " + result);
+        return result;
     }
 
     @Override
