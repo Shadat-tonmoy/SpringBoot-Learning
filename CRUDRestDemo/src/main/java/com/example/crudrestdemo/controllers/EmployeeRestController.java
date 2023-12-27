@@ -35,11 +35,15 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employee/{id}")
-    public Employee getEmployee(@PathVariable("id") int id) {
+    public Employee getEmployee(@PathVariable("id") int id) throws Exception {
         try {
             Employee employee = employeeService.getById(id);
             System.out.println("GetEmployeeWithId : " + id);
-            return employee;
+            if (employee == null) {
+                throw new Exception("Employee Not Found With Id : " + id);
+            } else {
+                return employee;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

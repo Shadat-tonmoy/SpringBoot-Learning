@@ -12,7 +12,9 @@ public interface EmployeeService {
 
     int update(Employee employee);
 
-    int delete(Employee employee);
+    Employee save(Employee employee);
+
+    void delete(Employee employee);
 
 
 }
