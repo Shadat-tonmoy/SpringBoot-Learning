@@ -9,12 +9,26 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
 
+
     @Bean
+    public UserDetailsManager getJDBCUserDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        userDetailsManager.setUsersByUsernameQuery("SELECT user_id, pw, active FROM members WHERE user_id = ?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT user_id, role FROM roles WHERE user_id = ?");
+
+        return userDetailsManager;
+    }
+
+    /*@Bean
     public InMemoryUserDetailsManager getInMemoryUserDetailsManager() {
         UserDetails john = User.builder()
                 .username("john")
@@ -37,7 +51,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(john, marry, susan);
 
 
-    }
+    }*/
 
 
     @Bean
