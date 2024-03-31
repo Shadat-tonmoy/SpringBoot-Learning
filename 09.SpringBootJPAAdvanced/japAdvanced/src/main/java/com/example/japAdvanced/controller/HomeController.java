@@ -32,4 +32,11 @@ public class HomeController {
         return new SuccessMessage(HttpStatus.OK.value(), "Instructor Added Successfully", instructor);
     }
 
+    @GetMapping("/instructor/{id}")
+    public Instructor findById(@PathVariable("id") int id) {
+        System.out.println("Fetch instructor with id : " + id);
+        Instructor instructor = instructorDao.findById(id);
+        return instructor;
+    }
+
 }

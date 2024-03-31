@@ -5,4 +5,6 @@ import com.example.japAdvanced.data.entities.Instructor;
 public interface InstructorDao {
 
     void save(Instructor instructor);
+
+    Instructor findById(int id);
 }

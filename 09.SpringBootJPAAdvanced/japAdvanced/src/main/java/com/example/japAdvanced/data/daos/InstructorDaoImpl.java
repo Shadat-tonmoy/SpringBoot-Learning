@@ -21,4 +21,10 @@ public class InstructorDaoImpl implements InstructorDao {
     public void save(Instructor instructor) {
         entityManager.persist(instructor);
     }
+
+    @Override
+    public Instructor findById(int id) {
+        Instructor instructor = entityManager.find(Instructor.class, id);
+        return instructor;
+    }
 }
