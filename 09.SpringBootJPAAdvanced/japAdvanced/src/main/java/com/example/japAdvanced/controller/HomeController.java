@@ -1,11 +1,24 @@
 package com.example.japAdvanced.controller;
 
+import com.example.japAdvanced.controller.utils.SuccessMessage;
+import com.example.japAdvanced.data.daos.InstructorDao;
 import com.example.japAdvanced.data.entities.Instructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("api/v1")
 public class HomeController {
+
+
+    private InstructorDao instructorDao;
+
+
+    @Autowired
+    public HomeController(InstructorDao instructorDao) {
+        this.instructorDao = instructorDao;
+    }
 
     @GetMapping("/")
     public String home() {
@@ -13,8 +26,10 @@ public class HomeController {
     }
 
     @PostMapping("/instructor")
-    public void addInstructor(@RequestBody Instructor instructor){
-        System.out.println("WIll add new instructor with "+instructor);
+    public SuccessMessage addInstructor(@RequestBody Instructor instructor) {
+        System.out.println("WIll add new instructor with " + instructor);
+        instructorDao.save(instructor);
+        return new SuccessMessage(HttpStatus.OK.value(), "Instructor Added Successfully", instructor);
     }
 
 }
