@@ -7,4 +7,6 @@ public interface InstructorDao {
     void save(Instructor instructor);
 
     Instructor findById(int id);
+
+    void deleteById(int id) throws Exception;
 }

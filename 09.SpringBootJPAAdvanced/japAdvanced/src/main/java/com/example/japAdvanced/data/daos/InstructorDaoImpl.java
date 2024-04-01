@@ -27,4 +27,15 @@ public class InstructorDaoImpl implements InstructorDao {
         Instructor instructor = entityManager.find(Instructor.class, id);
         return instructor;
     }
+
+    @Override
+    @Transactional
+    public void deleteById(int id) throws Exception {
+        Instructor instructor = entityManager.find(Instructor.class, id);
+        if (instructor != null) {
+            entityManager.remove(instructor);
+        } else {
+            throw new Exception("No Instructor Found with id : " + id);
+        }
+    }
 }

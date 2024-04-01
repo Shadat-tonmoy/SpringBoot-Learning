@@ -39,4 +39,12 @@ public class HomeController {
         return instructor;
     }
 
+
+    @DeleteMapping("/instructor/{id}")
+    public SuccessMessage deleteById(@PathVariable("id") int id) throws Exception {
+        System.out.println("Delete instructor with id : " + id);
+        instructorDao.deleteById(id);
+        return new SuccessMessage(HttpStatus.OK.value(), "Instructor deleted successfully", null);
+    }
+
 }
