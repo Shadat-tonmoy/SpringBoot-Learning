@@ -3,6 +3,7 @@ package com.example.japAdvanced.controller;
 import com.example.japAdvanced.controller.utils.SuccessMessage;
 import com.example.japAdvanced.data.daos.InstructorDao;
 import com.example.japAdvanced.data.entities.Instructor;
+import com.example.japAdvanced.data.entities.InstructorDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,14 @@ public class HomeController {
         System.out.println("Fetch instructor with id : " + id);
         Instructor instructor = instructorDao.findById(id);
         return instructor;
+    }
+
+    @GetMapping("/instructor/details/{id}")
+    public InstructorDetails findDetailsById(@PathVariable("id") int id) {
+        System.out.println("Fetch instructor details with id : " + id);
+        InstructorDetails instructorDetails = instructorDao.findDetailsById(id);
+        System.out.println("Details : "+instructorDetails+" instructor : "+instructorDetails.getInstructor());
+        return instructorDetails;
     }
 
 

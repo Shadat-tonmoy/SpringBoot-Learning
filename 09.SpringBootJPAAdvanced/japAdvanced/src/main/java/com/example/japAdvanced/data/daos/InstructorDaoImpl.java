@@ -1,6 +1,7 @@
 package com.example.japAdvanced.data.daos;
 
 import com.example.japAdvanced.data.entities.Instructor;
+import com.example.japAdvanced.data.entities.InstructorDetails;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,14 @@ public class InstructorDaoImpl implements InstructorDao {
     public Instructor findById(int id) {
         Instructor instructor = entityManager.find(Instructor.class, id);
         return instructor;
+    }
+
+    @Override
+    public InstructorDetails findDetailsById(int id) {
+//        InstructorDetails instructorDetails = entityManager.find(InstructorDetails.class, id);
+        Instructor instructor = entityManager.find(Instructor.class, id);
+        InstructorDetails instructorDetails = instructor.getInstructorDetails();
+        return instructorDetails;
     }
 
     @Override
