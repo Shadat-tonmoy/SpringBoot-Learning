@@ -46,8 +46,8 @@ public class UserController {
     @PutMapping("user/{userId}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable int userId) throws ResourceNotFoundException {
         System.out.println("Update user with id : " + userId);
-        userService.updateUser(userDto, userId);
-        return new ResponseEntity<>(userDto,HttpStatus.OK);
+        UserDto updatedUserDto = userService.updateUser(userDto, userId);
+        return new ResponseEntity<>(updatedUserDto,HttpStatus.OK);
     }
 
     @DeleteMapping("user/{userId}")

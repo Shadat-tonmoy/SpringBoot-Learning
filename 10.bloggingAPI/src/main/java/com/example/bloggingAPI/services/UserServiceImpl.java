@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         updatedUser.setId(userId);
         User savedUser = userRepo.save(updatedUser);
         UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
-
+        savedUserDto.setId(userId);
         return savedUserDto;
     }
 
