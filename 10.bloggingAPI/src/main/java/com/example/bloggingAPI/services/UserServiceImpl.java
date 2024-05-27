@@ -1,6 +1,7 @@
 package com.example.bloggingAPI.services;
 
 import com.example.bloggingAPI.entities.User;
+import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
 import com.example.bloggingAPI.payloads.UserDto;
 import com.example.bloggingAPI.repositories.UserRepo;
 import org.modelmapper.ModelMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,22 +29,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, int userId) {
-        return null;
+    public UserDto updateUser(UserDto userDto, int userId) throws ResourceNotFoundException {
+        User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
+        User updatedUser = modelMapper.map(userDto, User.class);
+        updatedUser.setId(userId);
+        User savedUser = userRepo.save(updatedUser);
+        UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
+
+        return savedUserDto;
     }
 
     @Override
-    public UserDto getUserById(int userId) {
-        return null;
+    public UserDto getUserById(int userId) throws ResourceNotFoundException {
+        User userById = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
+        UserDto userDto = modelMapper.map(userById, UserDto.class);
+        return userDto;
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        return null;
+        List<User> allUser = userRepo.findAll();
+        List<UserDto> allUserDto = allUser.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+        return allUserDto;
     }
 
     @Override
-    public void deleteUser(int userId) {
+    public void deleteUser(int userId) throws ResourceNotFoundException {
+        User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
+        userRepo.delete(userWithId);
 
     }
 }
