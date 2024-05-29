@@ -4,6 +4,7 @@ import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
 import com.example.bloggingAPI.payloads.OperationResponse;
 import com.example.bloggingAPI.payloads.UserDto;
 import com.example.bloggingAPI.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
 
 
     @PostMapping("user")
-    public ResponseEntity<UserDto> createNewUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createNewUser(@Valid @RequestBody UserDto userDto) {
 //        System.out.println("Will create a new user as : " + userDto);
         UserDto createdUser = userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
