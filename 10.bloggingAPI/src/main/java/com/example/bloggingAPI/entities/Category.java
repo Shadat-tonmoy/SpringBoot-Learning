@@ -1,15 +1,15 @@
 package com.example.bloggingAPI.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +27,7 @@ public class Category {
     @NotEmpty(message = "Category description must not be empty")
     private String description;
     private long lastModified;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    List<Post> postList = new ArrayList<>();
 }

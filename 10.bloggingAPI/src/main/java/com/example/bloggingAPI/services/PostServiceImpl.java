@@ -1,0 +1,87 @@
+package com.example.bloggingAPI.services;
+
+import com.example.bloggingAPI.entities.Category;
+import com.example.bloggingAPI.entities.Post;
+import com.example.bloggingAPI.entities.User;
+import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
+import com.example.bloggingAPI.payloads.PostDto;
+import com.example.bloggingAPI.repositories.CategoryRepo;
+import com.example.bloggingAPI.repositories.PostRepo;
+import com.example.bloggingAPI.repositories.UserRepo;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class PostServiceImpl implements PostService {
+
+    @Autowired
+    private PostRepo postRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private CategoryRepo categoryRepo;
+
+
+    @Override
+    public PostDto createPost(PostDto postDto, int userId, int categoryId) throws ResourceNotFoundException {
+        User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
+        Category categoryWithId = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId + ""));
+        Post newPost = modelMapper.map(postDto, Post.class);
+        newPost.setImageName("default.png");
+        newPost.setLastUpdated(System.currentTimeMillis());
+        newPost.setUser(userWithId);
+        newPost.setCategory(categoryWithId);
+        Post savedPost = postRepo.save(newPost);
+        PostDto savedPostDto = modelMapper.map(savedPost, PostDto.class);
+        return savedPostDto;
+    }
+
+    @Override
+    public PostDto updatePost(PostDto postDto, int postId) throws ResourceNotFoundException {
+        Post postWithId = postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId + ""));
+        postWithId.setContent(postDto.getContent());
+        postWithId.setTitle(postDto.getTitle());
+        postWithId.setImageName(postDto.getImageName());
+        Post updatedPost = postRepo.save(postWithId);
+        PostDto updatedPostDto = modelMapper.map(updatedPost, PostDto.class);
+        return updatedPostDto;
+    }
+
+    @Override
+    public PostDto getPostById(int id) throws ResourceNotFoundException {
+        Post postById = postRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id + ""));
+        PostDto postDto = modelMapper.map(postById, PostDto.class);
+        return postDto;
+    }
+
+    @Override
+    public List<PostDto> getAllPost() {
+        List<Post> postList = postRepo.findAll();
+        List<PostDto> postDtoList = postList.stream().map(post -> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtoList;
+    }
+
+    @Override
+    public List<PostDto> getPostByUser(int userId) {
+        return List.of();
+    }
+
+    @Override
+    public List<PostDto> getPostByCategory(int categoryId) {
+        return List.of();
+    }
+
+    @Override
+    public List<PostDto> searchPost(String searchString) {
+        return List.of();
+    }
+}
