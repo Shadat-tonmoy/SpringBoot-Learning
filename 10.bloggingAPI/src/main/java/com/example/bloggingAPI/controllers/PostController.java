@@ -34,6 +34,18 @@ public class PostController {
     @GetMapping("/posts/{postId}")
     public ResponseEntity<PostDto> getPostById(@PathVariable int postId) throws ResourceNotFoundException {
         PostDto postDto = postService.getPostById(postId);
-        return new ResponseEntity<>(postDto,HttpStatus.OK);
+        return new ResponseEntity<>(postDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/posts")
+    public ResponseEntity<List<PostDto>> getAllPostByUser(@PathVariable int userId) throws ResourceNotFoundException {
+        List<PostDto> postDtoList = postService.getPostByUser(userId);
+        return new ResponseEntity<>(postDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{categoryId}/posts")
+    public ResponseEntity<List<PostDto>> getAllPostByCategory(@PathVariable int categoryId) throws ResourceNotFoundException {
+        List<PostDto> postDtoList = postService.getPostByCategory(categoryId);
+        return new ResponseEntity<>(postDtoList, HttpStatus.OK);
     }
 }

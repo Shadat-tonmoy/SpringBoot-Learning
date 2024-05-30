@@ -15,9 +15,9 @@ public interface PostService {
 
     List<PostDto> getAllPost();
 
-    List<PostDto> getPostByUser(int userId);
+    List<PostDto> getPostByUser(int userId) throws ResourceNotFoundException;
 
-    List<PostDto> getPostByCategory(int categoryId);
+    List<PostDto> getPostByCategory(int categoryId) throws ResourceNotFoundException;
 
     List<PostDto> searchPost(String searchString);
 
