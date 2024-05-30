@@ -22,4 +22,8 @@ public class PostDto {
 
     private String imageName = "default.png";
     private long lastUpdated;
+
+    private UserDto user;
+
+    private CategoryDto category;
 }
