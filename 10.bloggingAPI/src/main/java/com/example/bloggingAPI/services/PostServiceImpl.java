@@ -57,6 +57,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public void deletePost(int postId) throws ResourceNotFoundException {
+        Post postWithId = postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId + ""));
+        postRepo.delete(postWithId);
+    }
+
+    @Override
     public PostDto getPostById(int id) throws ResourceNotFoundException {
         Post postById = postRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id + ""));
         PostDto postDto = modelMapper.map(postById, PostDto.class);
@@ -72,7 +78,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getPostByUser(int userId) throws ResourceNotFoundException {
-        User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","id",userId+""));
+        User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
         List<Post> postListByUser = postRepo.findAllByUser(userWithId);
         List<PostDto> postDtoList = postListByUser.stream()
                 .map((post -> modelMapper.map(post, PostDto.class)))
@@ -82,7 +88,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getPostByCategory(int categoryId) throws ResourceNotFoundException {
-        Category categoryWithId = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category","id",categoryId+""));
+        Category categoryWithId = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId + ""));
         List<Post> postListByCategory = postRepo.findAllByCategory(categoryWithId);
         List<PostDto> postDtoList = postListByCategory.stream()
                 .map((post -> modelMapper.map(post, PostDto.class)))
