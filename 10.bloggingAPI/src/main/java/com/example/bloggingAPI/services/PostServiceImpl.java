@@ -5,6 +5,7 @@ import com.example.bloggingAPI.entities.Post;
 import com.example.bloggingAPI.entities.User;
 import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
 import com.example.bloggingAPI.payloads.PostDto;
+import com.example.bloggingAPI.payloads.PostResponse;
 import com.example.bloggingAPI.repositories.CategoryRepo;
 import com.example.bloggingAPI.repositories.PostRepo;
 import com.example.bloggingAPI.repositories.UserRepo;
@@ -72,7 +73,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost(int pageNumber, int pageSize) {
+    public PostResponse getAllPost(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<Post> pageResult = postRepo.findAll(pageRequest);
         long totalElement = pageResult.getTotalElements();
@@ -81,7 +82,8 @@ public class PostServiceImpl implements PostService {
         System.out.println("Get all post : " + postList + " pageNumber : " + pageNumber + " pageSize : " + pageSize + " totalElement : " + totalElement + " totalPage : " + totalPage);
         // List<Post> postList = postRepo.findAll();
         List<PostDto> postDtoList = postList.stream().map(post -> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-        return postDtoList;
+        PostResponse postResponse = new PostResponse(postDtoList, pageNumber, pageSize, totalElement, totalPage, (pageNumber+1) == totalPage);
+        return postResponse;
     }
 
     @Override

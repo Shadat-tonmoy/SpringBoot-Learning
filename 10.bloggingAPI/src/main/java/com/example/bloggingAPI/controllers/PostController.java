@@ -3,6 +3,7 @@ package com.example.bloggingAPI.controllers;
 import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
 import com.example.bloggingAPI.payloads.OperationResponse;
 import com.example.bloggingAPI.payloads.PostDto;
+import com.example.bloggingAPI.payloads.PostResponse;
 import com.example.bloggingAPI.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,11 @@ public class PostController {
 
 
     @GetMapping("posts")
-    public ResponseEntity<List<PostDto>> getAllPosts(
+    public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
             @RequestParam(value = "PageSize", defaultValue = "5", required = false) int pageSize) {
-        List<PostDto> allPost = postService.getAllPost(pageNumber, pageSize);
-        return new ResponseEntity<>(allPost, HttpStatus.OK);
+        PostResponse postResponse = postService.getAllPost(pageNumber, pageSize);
+        return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
     @GetMapping("/posts/{postId}")
