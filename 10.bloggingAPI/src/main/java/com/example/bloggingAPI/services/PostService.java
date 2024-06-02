@@ -18,7 +18,7 @@ public interface PostService {
 
     PostResponse getAllPost(int pageNumber, int pageSize);
 
-    List<PostDto> getPostByUser(int userId) throws ResourceNotFoundException;
+    PostResponse getPostByUser(int userId, int pageNumber, int pageSize) throws ResourceNotFoundException;
 
     List<PostDto> getPostByCategory(int categoryId) throws ResourceNotFoundException;
 

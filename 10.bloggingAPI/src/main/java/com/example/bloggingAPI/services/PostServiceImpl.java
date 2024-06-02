@@ -87,13 +87,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getPostByUser(int userId) throws ResourceNotFoundException {
+    public PostResponse getPostByUser(int userId, int pageNumber, int pageSize) throws ResourceNotFoundException {
         User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
-        List<Post> postListByUser = postRepo.findAllByUser(userWithId);
+        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+        Page<Post> pageResponse = postRepo.findAllByUser(userWithId, pageRequest);
+        List<Post> postListByUser = pageResponse.getContent();
+//        List<Post> postListByUser = postRepo.findAllByUser(userWithId, pageRequest);
         List<PostDto> postDtoList = postListByUser.stream()
                 .map((post -> modelMapper.map(post, PostDto.class)))
                 .collect(Collectors.toList());
-        return postDtoList;
+        PostResponse postResponse = new PostResponse(postDtoList,pageNumber,pageSize,pageResponse.getTotalElements(),pageResponse.getTotalPages(),pageResponse.isLast());
+        return postResponse;
     }
 
     @Override
