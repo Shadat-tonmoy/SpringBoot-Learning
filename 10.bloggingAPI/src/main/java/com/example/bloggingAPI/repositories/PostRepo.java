@@ -16,4 +16,6 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     Page<Post> findAllByUser(User user, Pageable pageable);
 
     List<Post> findAllByCategory(Category category);
+
+    List<Post> findByTitleContaining(String keyword);
 }

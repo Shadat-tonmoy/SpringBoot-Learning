@@ -76,7 +76,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponse getAllPost(int pageNumber, int pageSize, String sortBy, boolean isDescending) {
         Sort sort = Sort.by(sortBy);
-        if(isDescending) sort = sort.descending();
+        if (isDescending) sort = sort.descending();
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pageResult = postRepo.findAll(pageRequest);
         long totalElement = pageResult.getTotalElements();
@@ -115,6 +115,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> searchPost(String searchString) {
-        return List.of();
+        List<Post> postList = postRepo.findByTitleContaining(searchString);
+        List<PostDto> postDtoList = postList.stream()
+                .map((post) -> modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+        return postDtoList;
     }
 }

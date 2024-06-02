@@ -71,4 +71,10 @@ public class PostController {
         postService.deletePost(postId);
         return new ResponseEntity<>(new OperationResponse(true, "Post is deleted successfully"), HttpStatus.OK);
     }
+
+    @GetMapping("posts/search/{searchString}")
+    public ResponseEntity<List<PostDto>> searchForPost(@PathVariable String searchString) {
+        List<PostDto> postDtoList = postService.searchPost(searchString);
+        return new ResponseEntity<>(postDtoList, HttpStatus.OK);
+    }
 }
