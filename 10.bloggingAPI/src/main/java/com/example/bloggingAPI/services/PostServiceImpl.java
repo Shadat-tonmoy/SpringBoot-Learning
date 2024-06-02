@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,8 +74,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPost(int pageNumber, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+    public PostResponse getAllPost(int pageNumber, int pageSize, String sortBy, boolean isDescending) {
+        Sort sort = Sort.by(sortBy);
+        if(isDescending) sort = sort.descending();
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pageResult = postRepo.findAll(pageRequest);
         long totalElement = pageResult.getTotalElements();
         int totalPage = pageResult.getTotalPages();
@@ -89,14 +92,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponse getPostByUser(int userId, int pageNumber, int pageSize) throws ResourceNotFoundException {
         User userWithId = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId + ""));
-        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<Post> pageResponse = postRepo.findAllByUser(userWithId, pageRequest);
         List<Post> postListByUser = pageResponse.getContent();
 //        List<Post> postListByUser = postRepo.findAllByUser(userWithId, pageRequest);
         List<PostDto> postDtoList = postListByUser.stream()
                 .map((post -> modelMapper.map(post, PostDto.class)))
                 .collect(Collectors.toList());
-        PostResponse postResponse = new PostResponse(postDtoList,pageNumber,pageSize,pageResponse.getTotalElements(),pageResponse.getTotalPages(),pageResponse.isLast());
+        PostResponse postResponse = new PostResponse(postDtoList, pageNumber, pageSize, pageResponse.getTotalElements(), pageResponse.getTotalPages(), pageResponse.isLast());
         return postResponse;
     }
 
