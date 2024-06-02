@@ -82,7 +82,7 @@ public class PostServiceImpl implements PostService {
         System.out.println("Get all post : " + postList + " pageNumber : " + pageNumber + " pageSize : " + pageSize + " totalElement : " + totalElement + " totalPage : " + totalPage);
         // List<Post> postList = postRepo.findAll();
         List<PostDto> postDtoList = postList.stream().map(post -> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-        PostResponse postResponse = new PostResponse(postDtoList, pageNumber, pageSize, totalElement, totalPage, (pageNumber+1) == totalPage);
+        PostResponse postResponse = new PostResponse(postDtoList, pageNumber, pageSize, totalElement, totalPage, pageResult.isLast());
         return postResponse;
     }
 
