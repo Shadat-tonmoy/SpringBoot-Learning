@@ -10,6 +10,8 @@ import com.example.bloggingAPI.repositories.PostRepo;
 import com.example.bloggingAPI.repositories.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -70,8 +72,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost() {
-        List<Post> postList = postRepo.findAll();
+    public List<PostDto> getAllPost(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pageResult = postRepo.findAll(pageRequest);
+        long totalElement = pageResult.getTotalElements();
+        int totalPage = pageResult.getTotalPages();
+        List<Post> postList = pageResult.getContent();
+        System.out.println("Get all post : " + postList + " pageNumber : " + pageNumber + " pageSize : " + pageSize + " totalElement : " + totalElement + " totalPage : " + totalPage);
+        // List<Post> postList = postRepo.findAll();
         List<PostDto> postDtoList = postList.stream().map(post -> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
         return postDtoList;
     }
