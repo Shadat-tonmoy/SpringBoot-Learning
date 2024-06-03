@@ -1,5 +1,6 @@
 package com.example.bloggingAPI.controllers;
 
+import com.example.bloggingAPI.constans.ConstValues;
 import com.example.bloggingAPI.exceptions.ResourceNotFoundException;
 import com.example.bloggingAPI.payloads.OperationResponse;
 import com.example.bloggingAPI.payloads.PostDto;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 @RestController
@@ -36,9 +36,9 @@ public class PostController {
 
     @GetMapping("posts")
     public ResponseEntity<PostResponse> getAllPosts(
-            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+            @RequestParam(value = "pageNumber", defaultValue = ConstValues.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = ConstValues.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = ConstValues.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "isDescending", defaultValue = "false", required = false) boolean isDescending
     ) {
         PostResponse postResponse = postService.getAllPost(pageNumber, pageSize, sortBy, isDescending);
@@ -54,8 +54,8 @@ public class PostController {
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<PostResponse> getAllPostByUser(
             @PathVariable int userId,
-            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) throws ResourceNotFoundException {
+            @RequestParam(value = "pageNumber", defaultValue = ConstValues.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = ConstValues.DEFAULT_PAGE_SIZE, required = false) int pageSize) throws ResourceNotFoundException {
         PostResponse postResponse = postService.getPostByUser(userId, pageNumber, pageSize);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
