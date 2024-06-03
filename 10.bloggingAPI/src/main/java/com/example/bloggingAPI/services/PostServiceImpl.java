@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -118,6 +119,15 @@ public class PostServiceImpl implements PostService {
         List<Post> postList = postRepo.findByTitleContaining(searchString);
         List<PostDto> postDtoList = postList.stream()
                 .map((post) -> modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+        return postDtoList;
+    }
+
+    @Override
+    public List<PostDto> searchForPost(String keyWord) {
+        List<Post> postList = postRepo.searchForPost("%"+keyWord+"%");
+        List<PostDto> postDtoList = postList.stream()
+                .map((post -> modelMapper.map(post, PostDto.class)))
                 .collect(Collectors.toList());
         return postDtoList;
     }

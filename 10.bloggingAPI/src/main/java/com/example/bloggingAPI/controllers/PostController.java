@@ -74,7 +74,8 @@ public class PostController {
 
     @GetMapping("posts/search/{searchString}")
     public ResponseEntity<List<PostDto>> searchForPost(@PathVariable String searchString) {
-        List<PostDto> postDtoList = postService.searchPost(searchString);
+//        List<PostDto> postDtoList = postService.searchPost(searchString);
+        List<PostDto> postDtoList = postService.searchForPost(searchString);
         return new ResponseEntity<>(postDtoList, HttpStatus.OK);
     }
 }

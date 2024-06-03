@@ -24,5 +24,7 @@ public interface PostService {
 
     List<PostDto> searchPost(String searchString);
 
+    List<PostDto> searchForPost(String keyWord);
+
 
 }
