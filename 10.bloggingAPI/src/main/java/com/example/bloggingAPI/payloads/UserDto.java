@@ -42,6 +42,4 @@ public class UserDto {
     @NotNull(message = "About field should not be null or empty")
     @NotEmpty(message = "About field should not be null or empty")
     private String about;
-
-
 }

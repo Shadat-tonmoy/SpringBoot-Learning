@@ -61,4 +61,11 @@ public class UserServiceImpl implements UserService {
         userRepo.delete(userWithId);
 
     }
+
+    @Override
+    public UserDto getUserByEmail(String email) throws ResourceNotFoundException {
+        User userWithEmail = userRepo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+        UserDto userDtoWithEmail = modelMapper.map(userWithEmail, UserDto.class);
+        return userDtoWithEmail;
+    }
 }

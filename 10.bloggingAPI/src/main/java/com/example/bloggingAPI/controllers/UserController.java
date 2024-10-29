@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -48,7 +49,7 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int userId) throws ResourceNotFoundException {
         System.out.println("Update user with id : " + userId);
         UserDto updatedUserDto = userService.updateUser(userDto, userId);
-        return new ResponseEntity<>(updatedUserDto,HttpStatus.OK);
+        return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
     }
 
     @DeleteMapping("user/{userId}")
@@ -57,6 +58,13 @@ public class UserController {
         userService.deleteUser(userId);
         OperationResponse response = new OperationResponse(true, "User is deleted successfully!");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("user")
+    public ResponseEntity<UserDto> getUserByEmail(@RequestParam(name = "email") String email) throws ResourceNotFoundException {
+        System.out.println("getUserByEmail : " + email);
+        UserDto userDto = userService.getUserByEmail(email);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
 }

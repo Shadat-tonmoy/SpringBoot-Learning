@@ -16,4 +16,6 @@ public interface UserService {
     List<UserDto> getAllUsers();
 
     void deleteUser(int userId) throws ResourceNotFoundException;
+
+    UserDto getUserByEmail(String email) throws ResourceNotFoundException;
 }
