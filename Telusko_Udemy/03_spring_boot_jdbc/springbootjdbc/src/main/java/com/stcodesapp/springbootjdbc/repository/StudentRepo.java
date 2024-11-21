@@ -20,7 +20,7 @@ public class StudentRepo {
     private JdbcTemplate jdbc;
 
     public void addStudent(Student student){
-        String sql = "insert into student (name, rollNo, marks) values (?,?,?)";
+        String sql = "insert into students (name, rollNo, marks) values (?,?,?)";
         int rows = jdbc.update(sql, student.getName(), student.getRollNo(), student.getMarks());
         System.out.println("Total row added : "+rows);
 //        students.add(student);
@@ -28,7 +28,7 @@ public class StudentRepo {
     }
 
     public List<Student> getAllStudents() {
-        String sql = "select * from student";
+        String sql = "select * from students";
         RowMapper<Student> rowMapper = (rs, rowNum) -> {
             Student student = new Student();
             student.setName(rs.getString("name"));
