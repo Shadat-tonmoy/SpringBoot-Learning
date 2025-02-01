@@ -1,6 +1,6 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%@ page isELIgnored="false"%>
 
 	<!DOCTYPE html>
@@ -34,7 +34,7 @@
 
 		<nav class="navbar navbar-expand-lg navbar-light bg-warning">
 			<div class="container">
-				<a class="navbar-brand fs-1 fw-medium" href="#">Telusko Job
+				<a class="navbar-brand fs-1 fw-medium" href="#">Job
 					Portal Web App</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -61,7 +61,7 @@
 						<div class="card-body">
 							<h2 class="mb-3 text-center fs-3 font-weight-bold">Post a new
 								Job</h2>
-							<form:form action="handleForm" method="post" modelAttribute="jobPost">
+							<form action="handleForm" method="post" modelAttribute="jobPost">
 								<div class="mb-1">
 									<label for="postId" class="form-label">Post ID</label> <input
 										type="text" class="form-control" id="postId" name="postId"
@@ -213,7 +213,7 @@
 								</div>
 
 								<button type="submit" class="btn btn-primary">Submit</button>
-							</form:form>
+							</form>
 						</div>
 					</div>
 				</div>
