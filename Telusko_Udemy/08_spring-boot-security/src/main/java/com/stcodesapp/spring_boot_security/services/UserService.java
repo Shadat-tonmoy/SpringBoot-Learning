@@ -23,6 +23,9 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JWTService jwtService;
+
     public List<Users> getAllUsers() {
         return userRepo.findAll();
     }
@@ -44,7 +47,7 @@ public class UserService {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(users.getUserName(), users.getPassword()));
         if(authentication.isAuthenticated()) {
-            return "Login Success";
+            return jwtService.generateToken(users.getUserName());
         } else {
             return "Login Failed";
         }
