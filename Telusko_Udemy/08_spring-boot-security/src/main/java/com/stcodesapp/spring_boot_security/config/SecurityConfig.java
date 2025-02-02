@@ -1,6 +1,7 @@
 package com.stcodesapp.spring_boot_security.config;
 
 import com.stcodesapp.spring_boot_security.services.DBUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,21 +16,26 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private JWTFilter jwtFilter;
+
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         // disable csrf token
-        httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
+        httpSecurity.csrf(customizer -> customizer.disable());
 
         // enabling authentication for every request
         httpSecurity.authorizeHttpRequests(customizer -> customizer
-                .requestMatchers(HttpMethod.POST,"/sign-up", "/login")
+                .requestMatchers(HttpMethod.POST, "/sign-up", "/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -47,14 +53,12 @@ public class SecurityConfig {
         // set authentication provider like dao, ldap or okta
         httpSecurity.authenticationProvider(authenticationProvider());
 
-        // setting user details service
-        httpSecurity.userDetailsService(userDetailsService());
+        // setting user details service - commenting out as it is being set by authentication provider
+        // httpSecurity.userDetailsService(userDetailsService());
 
-
-
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
-
 
     }
 
@@ -64,7 +68,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 //        authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         authProvider.setPasswordEncoder(bcryptPasswordEncoder());
@@ -74,7 +78,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
 
 //        UserDetails user1 = User
 //                .withDefaultPasswordEncoder()
